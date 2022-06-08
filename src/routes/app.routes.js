@@ -1,22 +1,23 @@
 import React from "react";
-import {createNativeStackNavigator} from "@react-navigation/native-stack";
+import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
 
-import InitHome from "../pages/InitHome";
+import Home from "../pages/Home";
 
-const AppStack = createNativeStackNavigator();
+const AppTabs = createBottomTabNavigator();
 
 function AppRoutes(){
     return(
-        <AppStack.Navigator
+        <AppTabs.Navigator
             screenOptions={{
                 headerShown: false
             }}
         >
-            <AppStack.Screen
-                name="InitHome"
-                component={InitHome}
+            <AppTabs.Screen
+                name="Home"
+                component={Home}
             />
-        </AppStack.Navigator>
+
+        </AppTabs.Navigator>
     );
 }
 

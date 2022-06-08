@@ -6,6 +6,7 @@ import {
     TouchableOpacity,
     SafeAreaView
 } from "react-native";
+import {AuthContext} from "../../contexts/auth";
 import Icon from "react-native-vector-icons/Ionicons"
 import {useNavigation} from "@react-navigation/native";
 import styles from "./styles";
@@ -15,8 +16,13 @@ export default function Login(){
 
     const navigation = useNavigation();
 
+    const { signIn } = useContext(AuthContext);
+
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    function headleLogin(){
+        signIn(email, password);
+    }
 
     const [btnEyesPassword, setBtnEyesPassword] = useState(true);
     const [sourceBtnEyes, setSourceBtnEyes] = useState('eye');
@@ -41,7 +47,7 @@ export default function Login(){
 
         <View style={styles.boxInputs}>
             <TextInput
-                onChangeText={(text)=> setEmail(text)}
+                onChangeText={(value)=> setEmail(value)}
                 value={email}
                 placeholder="Email"
                 placeholderTextColor="#000"
@@ -53,7 +59,7 @@ export default function Login(){
             
             <View>
                 <TextInput
-                    onChangeText={(text)=> setPassword(text)}
+                    onChangeText={(value)=> setPassword(value)}
                     value={password}
                     placeholder="Senha"
                     placeholderTextColor="#000"
@@ -75,6 +81,7 @@ export default function Login(){
 
         <TouchableOpacity
            style={styles.btnLogIn}
+           onPress={headleLogin}
         >
             <Text style={styles.textLogIn}>Entrar</Text>
           </TouchableOpacity>

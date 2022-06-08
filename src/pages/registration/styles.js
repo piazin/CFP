@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
       padding: 1,
       marginTop: 10
     },
-    inputEmail:{
+    inputNameAndEmail:{
       backgroundColor: "#D7D7D7",  
       borderRadius: 40,
       color: "#000",

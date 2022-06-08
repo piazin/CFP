@@ -1,5 +1,5 @@
 //imports//
-import React, {useState} from "react";
+import React, {useState, useContext} from "react";
 import {
     View, 
     Text, 
@@ -9,17 +9,27 @@ import {
     Linking,
     KeyboardAvoidingView
 } from "react-native";
+import {AuthContext} from "../../contexts/auth";
 import Icon from "react-native-vector-icons/Ionicons"
 import {useNavigation} from "@react-navigation/native";
 import styles from "./styles";
 //imports//
 
 export default function Registration(){
+    
+    const navigation = useNavigation();
+
+    const { signUp } = useContext(AuthContext);
+
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    function handleRegister(){
+        signUp(email, password, name);
+    }
+    
     const [btnEyesPassword, setBtnEyesPassword] = useState(true);
     const [sourceBtnEyes, setSourceBtnEyes] = useState('eye');
-    const navigation = useNavigation();
-    
-
     function setSecureText(){
         if(btnEyesPassword == true){
             setBtnEyesPassword(false);
@@ -47,10 +57,20 @@ export default function Registration(){
 
         <View style={styles.boxInputs}>
             <TextInput
-                onChangeText={()=> {}}
+                onChangeText={(value)=> setName(value)}
+                value={name}
+                placeholder="Nome"
+                placeholderTextColor="#000"
+                style={styles.inputNameAndEmail}
+                underlineColorAndroid="transparent"
+            />
+
+            <TextInput
+                onChangeText={(value)=> setEmail(value)}
+                value={email}
                 placeholder="Email"
                 placeholderTextColor="#000"
-                style={styles.inputEmail}
+                style={styles.inputNameAndEmail}
                 underlineColorAndroid="transparent"
                 keyboardType="email-address"
                 autoComplete="email"
@@ -58,24 +78,8 @@ export default function Registration(){
             
             <View>
                 <TextInput
-                    onChangeText={()=> {}}
-                    placeholder="Senha"
-                    placeholderTextColor="#000"
-                    style={styles.inputPassword}
-                    underlineColorAndroid="transparent"
-                    secureTextEntry={btnEyesPassword}
-                />
-
-                <TouchableOpacity 
-                    style={styles.eyesPassword}
-                    onPress={setSecureText}
-                >
-                    <Icon name={sourceBtnEyes} color="#000" size={30}/>
-                </TouchableOpacity>
-            </View>
-            <View>
-                <TextInput
-                    onChangeText={()=> {}}
+                    onChangeText={(value)=> setPassword(value)}
+                    value={password}
                     placeholder="Senha"
                     placeholderTextColor="#000"
                     style={styles.inputPassword}
@@ -104,6 +108,7 @@ export default function Registration(){
         <View style={styles.boxButtons}>
             <TouchableOpacity
                 style={styles.btnLogIn}
+                onPress={handleRegister}
             >
                 <Text style={styles.textLogIn}>Criar Conta</Text>
             </TouchableOpacity>
