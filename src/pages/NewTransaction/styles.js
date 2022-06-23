@@ -10,6 +10,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
     },
     textHeader:{
+        color: "#000",
         fontSize: 18,
         fontWeight: "800"
     },
@@ -31,6 +32,12 @@ const styles = StyleSheet.create({
         fontSize: 16,
         marginTop: 25,
         width: 300,
+    },
+    picker:{
+        borderBottomStartRadius: 10,
+        color: "#fff",
+        marginTop: 20,
+        width: 300
     },
     btnSave:{
         alignItems: "center",

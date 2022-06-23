@@ -105,6 +105,7 @@ export default function New(){
                     keyboardType="numeric"
                     returnKeyType="next"
                     onSubmitEditing={()=> Keyboard.dismiss()}
+                    placeholderTextColor="#000"
                 />
 
                 <TextInput
@@ -112,10 +113,11 @@ export default function New(){
                     onChangeText={(text)=> setDescription(text)}
                     style={[styles.inputValue, styles.inputDescription]}
                     placeholder="descrição"
+                    placeholderTextColor="#000"
                 />
 
                 <Picker
-                style={{width: 300}}
+                style={[styles.picker, {color: type == 'despesa' ? "#922626" : "#009F40"}]}
                 selectedValue={type}
                 onValueChange={(itemValue, itemIndex) =>
                     setType(itemValue)

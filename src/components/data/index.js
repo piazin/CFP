@@ -24,7 +24,7 @@ export default function HistoricoList({ data, deleteItem }) {
 
     <View>
       <Text style={styles.textType}>{data.description}</Text>
-      <Text style={styles.textTranactions}>{data.date}</Text>
+      <Text style={[styles.textTranactions, styles.textDate]}>{data.date}</Text>
     </View>
    </View>
   </TouchableWithoutFeedback>

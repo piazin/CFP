@@ -6,7 +6,7 @@ import {
     FlatList,
     Image,
     TouchableOpacity,
-    Alert
+    Alert,
 } from "react-native";
 import firebase from "../../services/firebaseConnection";
 import {useNavigation} from "@react-navigation/native"
@@ -129,9 +129,6 @@ function Home(){
                 keyExtractor={ item => item.key}
                 renderItem={ ({ item }) => ( <HistoricoList data={item} deleteItem={handleDelete}/> )}
             /> 
-
-
-            
 
         </SafeAreaView>
     );

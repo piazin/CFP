@@ -5,7 +5,9 @@ import {
     TextInput, 
     TouchableOpacity,
     SafeAreaView,
-    ActivityIndicator
+    ActivityIndicator,
+    TouchableNativeFeedback,
+    Keyboard
 } from "react-native";
 import {AuthContext} from "../../contexts/auth";
 import Icon from "react-native-vector-icons/Ionicons"
@@ -40,6 +42,9 @@ export default function Login(){
     }
 
     return(
+      <TouchableNativeFeedback
+        onPress={()=> Keyboard.dismiss()}
+      >
       <SafeAreaView style={styles.container}>
     
         <Text style={styles.textLogin}> Login </Text>
@@ -110,5 +115,6 @@ export default function Login(){
         </View>
 
       </SafeAreaView>
+      </TouchableNativeFeedback>
     );
   }

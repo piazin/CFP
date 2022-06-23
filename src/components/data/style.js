@@ -16,11 +16,14 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: "bold"
     },
+    textDate:{
+        fontSize: 18
+    },
     textType:{
         color: "#fff"
     },
     boxLeft:{
-        marginRight: 140,
+        paddingRight: 100,
     }
 });
 

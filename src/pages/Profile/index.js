@@ -8,9 +8,9 @@ function Profile(){
 
     return(
         <View>
-            <Text>{user.name}</Text>
+            <Text style={{fontSize: 20}}>{user.name}</Text>
             <TouchableOpacity onPress={singOut}>
-                <Text>Sair</Text>
+                <Text style={{fontSize: 20}}>Sair</Text>
             </TouchableOpacity>
         </View>
     );
