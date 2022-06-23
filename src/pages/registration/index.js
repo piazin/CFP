@@ -7,7 +7,8 @@ import {
     TouchableOpacity, 
     Image, 
     Linking,
-    KeyboardAvoidingView
+    KeyboardAvoidingView,
+    ActivityIndicator
 } from "react-native";
 import {AuthContext} from "../../contexts/auth";
 import Icon from "react-native-vector-icons/Ionicons"
@@ -19,7 +20,7 @@ export default function Registration(){
     
     const navigation = useNavigation();
 
-    const { signUp } = useContext(AuthContext);
+    const { signUp, loadingAuth } = useContext(AuthContext);
 
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
@@ -110,7 +111,15 @@ export default function Registration(){
                 style={styles.btnLogIn}
                 onPress={handleRegister}
             >
-                <Text style={styles.textLogIn}>Criar Conta</Text>
+
+                {
+                    loadingAuth ? (
+                        <ActivityIndicator size={20} color="#fff"/>
+                    ) : (
+                        <Text style={styles.textLogIn}>Criar Conta</Text>
+                    )
+                }
+
             </TouchableOpacity>
 
             <TouchableOpacity

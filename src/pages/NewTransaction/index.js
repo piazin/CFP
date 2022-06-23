@@ -23,7 +23,7 @@ export default function New(){
     
     const [valueBalance, setValueBalance] = useState("");
     const [description, setDescription] = useState("");
-    const [type, setType] = useState(null);
+    const [type, setType] = useState('receita');
 
     const {user: usuario} = useContext(AuthContext);
 
@@ -72,6 +72,8 @@ export default function New(){
             type === 'despesa' ? saldo -= parseFloat(valueBalance) : saldo += parseFloat(valueBalance);
 
             user.child('saldo').set(saldo);
+
+            console.log(saldo);
         });
 
         Keyboard.dismiss();

@@ -4,6 +4,7 @@ const styles = StyleSheet.create({
     container: {
         backgroundColor: "#252525",
         borderRadius: 10,
+        flexDirection: "row",
         padding: 10,
         margin: 10,
     },
@@ -17,6 +18,9 @@ const styles = StyleSheet.create({
     },
     textType:{
         color: "#fff"
+    },
+    boxLeft:{
+        marginRight: 140,
     }
 });
 

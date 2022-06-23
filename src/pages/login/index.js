@@ -4,7 +4,8 @@ import {
     Text, 
     TextInput, 
     TouchableOpacity,
-    SafeAreaView
+    SafeAreaView,
+    ActivityIndicator
 } from "react-native";
 import {AuthContext} from "../../contexts/auth";
 import Icon from "react-native-vector-icons/Ionicons"
@@ -16,7 +17,7 @@ export default function Login(){
 
     const navigation = useNavigation();
 
-    const { signIn } = useContext(AuthContext);
+    const { signIn, loadingAuth } = useContext(AuthContext);
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -83,8 +84,18 @@ export default function Login(){
            style={styles.btnLogIn}
            onPress={headleLogin}
         >
-            <Text style={styles.textLogIn}>Entrar</Text>
-          </TouchableOpacity>
+           
+            {
+                loadingAuth ? (
+                    <ActivityIndicator size={20} color="#fff"/>
+                )
+                :
+                (
+                    <Text style={styles.textLogIn}>Entrar</Text>
+                )
+            }
+            
+        </TouchableOpacity>
 
         <View style={styles.boxButtons}>
 

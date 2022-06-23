@@ -1,32 +1,98 @@
-import React, {useContext, useState} from "react";
+import React, {useContext, useState, useEffect} from "react";
 import {
     View,
     SafeAreaView,
     Text,
     FlatList,
     Image,
-    TouchableOpacity
+    TouchableOpacity,
+    Alert
 } from "react-native";
+import firebase from "../../services/firebaseConnection";
 import {useNavigation} from "@react-navigation/native"
 import Icon from "react-native-vector-icons/Feather";
 import styles from "./style";
 import {AuthContext} from "../../contexts/auth";
 import HistoricoList from "../../components/data";
+import {format}  from "date-fns";
 
 function Home(){
  
     const navigation = useNavigation();
     
-    const [historico, setHistorico] = useState([
-        {key: '1', tipo: 'receita', valor: 1200},
-        {key: '2', tipo: 'despesa', valor: 200},
-        {key: '3', tipo: 'receita', valor: 40},
-        {key: '4', tipo: 'receita', valor: 89.62},
-        {key: '5', tipo: 'despesa', valor: 500},
-        {key: '6', tipo: 'despesa', valor: 310},
-    ]);
+    const [history, setHistory] = useState([]);
+    const [balance, setBalance] = useState(0);
 
     const {user} = useContext(AuthContext);
+    const uid = user && user.uid;
+
+    useEffect(()=>{
+        async function loadList(){
+            await firebase.database().ref('users').child(uid).on('value', (snapshot)=>{
+                setBalance(snapshot.val().saldo);
+            });
+
+
+            await firebase.database().ref('history')
+            .child(uid)
+            .orderByChild('date').equalTo(format(new Date(), 'dd/MM/yy'))
+            .limitToLast(10)
+            .on('value', (snapshot)=>{
+                
+                setHistory([]);
+
+                snapshot.forEach((item)=>{
+                    let list = {
+                        key: item.key,
+                        description: item.val().description,
+                        type: item.val().type,
+                        value: item.val().value,
+                        date: item.val().date,
+                    }
+
+                    setHistory(oldArray => [...oldArray, list].reverse())
+                });
+
+            });
+        }
+
+        
+
+        loadList();
+    }, []);
+
+    function handleDelete(data){
+        
+        Alert.alert(
+            'Cuidado!',
+            `Deseja excluir está ${data.type}, no valor de ${data.value}?`,
+            [
+                {
+                    text: "Cancelar",
+                    style: "cancel"
+                },
+                {
+                    text: "Deletar",
+                    onPress: ()=> handleDeleteOK(data)
+                }
+            ]
+        );
+    }
+
+    async function handleDeleteOK(data){
+        await firebase.database().ref('history')
+        .child(uid).child(data.key).remove()
+        .then( async ()=>{
+            let balaceAtt = balance;
+            data.type === 'despesa' ? balaceAtt += parseFloat(data.value) : balaceAtt -= parseFloat(data.value);
+
+            await firebase.database().ref('users').child(uid)
+            .child('saldo').set(balaceAtt);
+
+        }).catch((err)=>{
+            console.log(err);
+        })
+    }
 
     return(
         <SafeAreaView style={styles.container}>
@@ -38,7 +104,7 @@ function Home(){
                 />
 
                 <Text style={styles.nameUser}>Olá, {user.name}</Text>
-                <Text style={styles.balance}>R$: {user.saldo}</Text>
+                <Text style={styles.balance}>R$: {balance}</Text>
 
                 <View style={{
                     height: 1,
@@ -59,9 +125,9 @@ function Home(){
             <FlatList
                 style={styles.containerTransactions}
                 showsVerticalScrollIndicator={false}
-                data={historico}
+                data={history}
                 keyExtractor={ item => item.key}
-                renderItem={ ({ item }) => ( <HistoricoList data={item}/> )}
+                renderItem={ ({ item }) => ( <HistoricoList data={item} deleteItem={handleDelete}/> )}
             /> 
 
 

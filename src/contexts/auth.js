@@ -8,6 +8,7 @@ function AuthProvider({ children }){
 
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [loadingAuth, setLoadingAuth] = useState(false);
 
     useEffect(()=>{
         async function loadStorage(){
@@ -26,10 +27,10 @@ function AuthProvider({ children }){
 
     //create user
     async function signUp(email, password, name){
+        setLoadingAuth(true);
         await firebase.auth().createUserWithEmailAndPassword(email, password)
         .then(async (value)=>{
             let uid = value.user.uid;
-
             await firebase.database().ref('users').child(uid).set({
                 name: name,
                 saldo: 0
@@ -38,26 +39,27 @@ function AuthProvider({ children }){
                 let data = {
                     uid: uid,
                     name: name,
-                    email: value.user.email,
-                    saldo: saldo
+                    email: value.user.email
                 }
                 setUser(data);
                 storageUser(data);
+                setLoadingAuth(false);
             }).catch((err)=>{
                 console.log(err);
             });
 
         }).catch((err)=>{
-            console.log(err);
+            console.log(err.code);
+            setLoadingAuth(false);
         });
     }
 
     //login user
     async function signIn(email, password){
+        setLoadingAuth(true);
         await firebase.auth().signInWithEmailAndPassword(email, password)
         .then(async (value)=>{
             let user = value.user;
-
             await firebase.database().ref('users').child(user.uid).once('value')
             .then((snapshot)=>{
                 let data = {
@@ -68,12 +70,15 @@ function AuthProvider({ children }){
                 };
                 setUser(data);  
                 storageUser(data);
+                setLoadingAuth(false);
             }).catch((err)=>{
-                console.log(err);
+                console.log(err.code);
+                setLoadingAuth(false);
             });
                 
         }).catch((err)=>{
-            console.log(err);
+            console.log(err.code);
+            setLoadingAuth(false);
         })
     }
 
@@ -90,7 +95,7 @@ function AuthProvider({ children }){
     }
 
     return(
-        <AuthContext.Provider value={{ signed: !!user , user, loading, signUp, signIn, singOut }}>
+        <AuthContext.Provider value={{ signed: !!user , user, loading, signUp, signIn, singOut, loadingAuth }}>
             {children}
         </AuthContext.Provider>
     );
