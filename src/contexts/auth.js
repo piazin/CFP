@@ -10,6 +10,9 @@ function AuthProvider({ children }){
     const [loading, setLoading] = useState(true);
     const [loadingAuth, setLoadingAuth] = useState(false);
 
+    const [errorLogin, setErrorLogin] = useState('');
+    const [errorCreateUser, setErrorCreateUser] = useState('');
+
     useEffect(()=>{
         async function loadStorage(){
             const storageUser = await AsyncStorage.getItem('Auth_User');
@@ -50,6 +53,21 @@ function AuthProvider({ children }){
 
         }).catch((err)=>{
             console.log(err.code);
+            
+            switch (err.code) {
+                case 'auth/email-already-in-use': 
+                    setErrorCreateUser('usuário já cadastrado');
+                    break;
+                case 'auth/weak-password':
+                    setErrorCreateUser('sua senha deve conter no min 6 caracteres');
+                    break;
+                case 'auth/invalid-email':
+                    setErrorCreateUser('email invalido!');
+                    break;
+                default: 
+                    setErrorCreateUser('ops');
+            }
+
             setLoadingAuth(false);
         });
     }
@@ -75,10 +93,37 @@ function AuthProvider({ children }){
                 console.log(err.code);
                 setLoadingAuth(false);
             });
+
+            setErrorLogin('');
                 
         }).catch((err)=>{
-            console.log(err.code);
+
+            switch (err.code) {
+                case 'auth/wrong-password': 
+                    setErrorLogin('senha errada!');
+                    break;
+                case 'auth/user-not-found':
+                    setErrorLogin('usuário não encontrado');
+                    break;
+                case 'auth/invalid-email':
+                    setErrorLogin('email invalido!');
+                    break;
+                default: 
+                    setErrorLogin('ops');
+            }
+            
             setLoadingAuth(false);
+            
+        })
+    }
+
+    //reset passaword
+    async function forgotPassword(email){
+        await firebase.auth().sendPasswordResetEmail(email)
+        .then(()=>{
+            alert('email enviado para redefinir senha');
+        }).catch((err)=>{
+            console.log(err.code);
         })
     }
 
@@ -95,7 +140,7 @@ function AuthProvider({ children }){
     }
 
     return(
-        <AuthContext.Provider value={{ signed: !!user , user, loading, signUp, signIn, singOut, loadingAuth }}>
+        <AuthContext.Provider value={{ signed: !!user , user, loading, signUp, signIn, singOut, errorLogin, loadingAuth, forgotPassword, errorCreateUser }}>
             {children}
         </AuthContext.Provider>
     );

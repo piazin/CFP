@@ -33,7 +33,13 @@ const styles = StyleSheet.create({
         marginTop: 25,
         width: 300,
     },
+    iconDescription:{
+        position: "absolute",
+        left: 15,
+        top: 25,
+    },
     picker:{
+        backgroundColor: "#D9D9D9",
         borderBottomStartRadius: 10,
         color: "#fff",
         marginTop: 20,

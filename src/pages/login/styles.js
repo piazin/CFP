@@ -6,7 +6,8 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: "center",
         backgroundColor: "#fff",
-        justifyContent: "center"
+        justifyContent: "center",
+        position: "relative"
     },
     arrowPrev:{
         left: 15,
@@ -32,6 +33,7 @@ const styles = StyleSheet.create({
     inputEmailAndPassword:{
         backgroundColor: "#D7D7D7",  
         borderRadius: 40,
+        borderColor: "#922626",
         color: "#000",
         elevation: 1,
         fontFamily: "Inter-Regular",
@@ -89,6 +91,19 @@ const styles = StyleSheet.create({
         fontFamily: "Inter-Bold",
         fontSize: 15,
         marginLeft: 25
+    },
+    error:{
+        alignItems: "center",
+        backgroundColor: "#922626",
+        borderRadius: 10,
+        justifyContent: "center",
+        height: 25,
+        top: 50,
+        width: 250
+    },
+    textError:{
+        color: "#FFF",
+        fontSize: 18
     }
 });
 

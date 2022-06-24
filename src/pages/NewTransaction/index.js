@@ -34,24 +34,7 @@ export default function New(){
             return;
         }
 
-        Alert.alert(
-            'Deseja confirmar?',
-            `
-                tipo: ${type}
-                valor: ${valueBalance} 
-                descrição: ${description}
-            `,
-            [
-                {
-                    text: "Cancelar",
-                    style: 'cancel'
-                },
-                {
-                    text: "Confirmar",
-                    onPress: ()=> saveTransactions()
-                }
-            ]
-        )
+        saveTransactions();
     }
 
     async function saveTransactions(){
@@ -107,14 +90,18 @@ export default function New(){
                     onSubmitEditing={()=> Keyboard.dismiss()}
                     placeholderTextColor="#000"
                 />
+                <View>
+                    <Icon name="create-outline" size={30} color="#000" style={styles.iconDescription}/>
+                    <TextInput
+                        value={description}
+                        onChangeText={(text)=> setDescription(text)}
+                        style={[styles.inputValue, styles.inputDescription]}
+                        placeholder="descrição"
+                        placeholderTextColor="#000"
+                        maxLength={20}
+                    />
 
-                <TextInput
-                    value={description}
-                    onChangeText={(text)=> setDescription(text)}
-                    style={[styles.inputValue, styles.inputDescription]}
-                    placeholder="descrição"
-                    placeholderTextColor="#000"
-                />
+                </View>
 
                 <Picker
                 style={[styles.picker, {color: type == 'despesa' ? "#922626" : "#009F40"}]}

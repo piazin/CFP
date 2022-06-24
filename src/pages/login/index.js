@@ -19,12 +19,34 @@ export default function Login(){
 
     const navigation = useNavigation();
 
-    const { signIn, loadingAuth } = useContext(AuthContext);
+    const { signIn, loadingAuth, forgotPassword, errorLogin } = useContext(AuthContext);
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+
+    const [err, setErr] = useState(0);
+
     function headleLogin(){
+        if(email == '' || password == ''){
+            alert('Preencha todos os campos');
+            setErr(1);
+            return;
+        }
         signIn(email, password);
+        setErr(0);
+        Keyboard.dismiss();
+    }
+
+    function headlePassword(){
+        if(email == ''){
+            alert('Preencha o campo email');
+            setErr(1);
+            return;
+        } 
+
+        forgotPassword(email);
+        setErr(0);
+        Keyboard.dismiss();
     }
 
     const [btnEyesPassword, setBtnEyesPassword] = useState(true);
@@ -51,13 +73,25 @@ export default function Login(){
 
         <Text style={styles.subTextLogin}>acesse sua conta</Text>
 
+        {
+            errorLogin != '' ? (
+                <View style={styles.error}>
+                    <Text style={styles.textError}>{errorLogin}</Text>
+                </View>
+            ) : (
+                <View style={{display: "none"}}>
+                    
+                </View>
+            )
+        }
+
         <View style={styles.boxInputs}>
             <TextInput
                 onChangeText={(value)=> setEmail(value)}
                 value={email}
                 placeholder="Email"
                 placeholderTextColor="#000"
-                style={styles.inputEmailAndPassword}
+                style={[styles.inputEmailAndPassword, {borderWidth: err}]}
                 underlineColorAndroid="transparent"
                 keyboardType="email-address"
                 autoComplete="email"
@@ -69,7 +103,7 @@ export default function Login(){
                     value={password}
                     placeholder="Senha"
                     placeholderTextColor="#000"
-                    style={styles.inputEmailAndPassword}
+                    style={[styles.inputEmailAndPassword, {borderWidth: err}]}
                     underlineColorAndroid="transparent"
                     secureTextEntry={btnEyesPassword}
                 />
@@ -81,8 +115,12 @@ export default function Login(){
                     <Icon name={sourceBtnEyes} color="#222" size={30} />
                 </TouchableOpacity>
             </View>
-
-            <Text style={styles.forgotPassword}>Esqueceu a senha?</Text>
+            <TouchableOpacity
+                onPress={headlePassword}
+            >
+                <Text style={styles.forgotPassword}>Esqueceu a senha?</Text>
+            </TouchableOpacity>
+            
         </View>
 
         <TouchableOpacity

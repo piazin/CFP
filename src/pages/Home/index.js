@@ -36,9 +36,9 @@ function Home(){
             await firebase.database().ref('history')
             .child(uid)
             .orderByChild('date').equalTo(format(new Date(), 'dd/MM/yy'))
-            .limitToLast(10)
+            .limitToLast(20)
             .on('value', (snapshot)=>{
-                
+                console.log(snapshot);
                 setHistory([]);
 
                 snapshot.forEach((item)=>{
@@ -50,7 +50,8 @@ function Home(){
                         date: item.val().date,
                     }
 
-                    setHistory(oldArray => [...oldArray, list].reverse())
+                    setHistory(oldArray => [...oldArray, list].reverse());
+                    console.log(history);
                 });
 
             });
@@ -108,7 +109,7 @@ function Home(){
 
                 <View style={{
                     height: 1,
-                    backgroundColor: '#000',
+                    backgroundColor: '#FF7A00',
                     alignSelf: 'stretch'
                 }} />
             </View>

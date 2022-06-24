@@ -109,6 +109,11 @@ const styles = StyleSheet.create({
       fontFamily: "Inter-Bold",
       fontSize: 15,
       marginLeft: 25
+    },
+    textError:{
+      color: "#922626",
+      fontSize: 17,
+      fontWeight: "600"
     }
 });
 

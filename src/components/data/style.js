@@ -2,7 +2,7 @@ import {StyleSheet} from "react-native";
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: "#252525",
+        backgroundColor: "#ffffff",
         borderRadius: 10,
         flexDirection: "row",
         padding: 10,
@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
     },
     textTranactions:{
-        color: "#fff",
+        color: "#000",
         fontSize: 20,
         fontWeight: "bold"
     },
@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
         fontSize: 18
     },
     textType:{
-        color: "#fff"
+        color: "#000"
     },
     boxLeft:{
         paddingRight: 100,

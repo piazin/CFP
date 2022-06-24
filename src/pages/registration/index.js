@@ -8,7 +8,9 @@ import {
     Image, 
     Linking,
     KeyboardAvoidingView,
-    ActivityIndicator
+    ActivityIndicator,
+    TouchableNativeFeedback,
+    Keyboard
 } from "react-native";
 import {AuthContext} from "../../contexts/auth";
 import Icon from "react-native-vector-icons/Ionicons"
@@ -20,13 +22,14 @@ export default function Registration(){
     
     const navigation = useNavigation();
 
-    const { signUp, loadingAuth } = useContext(AuthContext);
+    const { signUp, loadingAuth, errorCreateUser } = useContext(AuthContext);
 
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     function handleRegister(){
         signUp(email, password, name);
+        Keyboard.dismiss();
     }
     
     const [btnEyesPassword, setBtnEyesPassword] = useState(true);
@@ -43,6 +46,10 @@ export default function Registration(){
     }
 
     return(
+
+      <TouchableNativeFeedback
+        onPress={()=> Keyboard.dismiss()}
+      >
       <KeyboardAvoidingView
         style={styles.container}
         behavior={Platform.OS === "ios" ? "padding" : ""}
@@ -55,6 +62,18 @@ export default function Registration(){
             <Icon name="arrow-back" color="#000" size={40}/> 
         </TouchableOpacity>
         <Text style={styles.textLogin}> Criar sua conta </Text>
+
+        {
+            errorCreateUser != '' ? (
+                <View>
+                    <Text style={styles.textError}>{errorCreateUser}</Text>
+                </View>
+            ) : (
+                <View style={{display: "none"}}>
+                    
+                </View>
+            )
+        }
 
         <View style={styles.boxInputs}>
             <TextInput
@@ -137,5 +156,6 @@ export default function Registration(){
 
         </View>
       </KeyboardAvoidingView>
+      </TouchableNativeFeedback>
     );
 }
