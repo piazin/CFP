@@ -14,7 +14,8 @@ import Icon from "react-native-vector-icons/Feather";
 import styles from "./style";
 import {AuthContext} from "../../contexts/auth";
 import HistoricoList from "../../components/data";
-import {format}  from "date-fns";
+import AwesomeAlert from "react-native-awesome-alerts";
+import { set } from "date-fns";
 
 function Home(){
  
@@ -35,10 +36,10 @@ function Home(){
 
             await firebase.database().ref('history')
             .child(uid)
-            .orderByChild('date').equalTo(format(new Date(), 'dd/MM/yy'))
+            .orderByChild('date')
             .limitToLast(20)
             .on('value', (snapshot)=>{
-                console.log(snapshot);
+                
                 setHistory([]);
 
                 snapshot.forEach((item)=>{
@@ -51,10 +52,11 @@ function Home(){
                     }
 
                     setHistory(oldArray => [...oldArray, list].reverse());
-                    console.log(history);
+        
                 });
 
             });
+
         }
 
         
@@ -101,7 +103,7 @@ function Home(){
             <View style={styles.containerInfoUser}>
                 <Image
                     style={styles.imgUserProfile}
-                    source={{uri: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png"}}
+                    source={user.photoUrl == undefined ? {uri: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png"} : user.photoUrl}
                 />
 
                 <Text style={styles.nameUser}>Olá, {user.name}</Text>

@@ -75,13 +75,9 @@ export default function Login(){
 
         {
             errorLogin != '' ? (
-                <View style={styles.error}>
-                    <Text style={styles.textError}>{errorLogin}</Text>
-                </View>
+                <Text style={styles.textError}>{errorLogin}</Text>
             ) : (
-                <View style={{display: "none"}}>
-                    
-                </View>
+                <View style={{display: "none"}}></View>
             )
         }
 
@@ -95,6 +91,7 @@ export default function Login(){
                 underlineColorAndroid="transparent"
                 keyboardType="email-address"
                 autoComplete="email"
+
             />
             
             <View>

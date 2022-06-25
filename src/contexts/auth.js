@@ -42,7 +42,8 @@ function AuthProvider({ children }){
                 let data = {
                     uid: uid,
                     name: name,
-                    email: value.user.email
+                    email: value.user.email,
+                    photoUrl: value.user.photoURL
                 }
                 setUser(data);
                 storageUser(data);

@@ -92,18 +92,10 @@ const styles = StyleSheet.create({
         fontSize: 15,
         marginLeft: 25
     },
-    error:{
-        alignItems: "center",
-        backgroundColor: "#922626",
-        borderRadius: 10,
-        justifyContent: "center",
-        height: 25,
-        top: 50,
-        width: 250
-    },
     textError:{
-        color: "#FFF",
-        fontSize: 18
+        color: "#922626",
+        fontSize: 18,
+        top: 50
     }
 });
 
