@@ -1,5 +1,5 @@
-import React, {useContext} from "react";
-import {View, Text, TouchableOpacity, Image} from "react-native";
+import React, {useContext, useState} from "react";
+import {View, Text, TouchableOpacity, Image, Modal, Button} from "react-native";
 import {AuthContext} from "../../contexts/auth";
 import {useNavigation} from "@react-navigation/native";
 import styles from "./style";
@@ -8,7 +8,7 @@ function Profile(){
     const Navigation = useNavigation();
 
     const {user, singOut} = useContext(AuthContext);
-
+    const [modalVisible, setModalVisible] = useState(false);
 
     return(
         <View style={styles.container}>
@@ -39,10 +39,26 @@ function Profile(){
                 </TouchableOpacity>
                 <TouchableOpacity
                     style={styles.options}
+                    onPress={()=> setModalVisible(true)}
                 >
-                    <Text style={styles.textOptions}>Em desenvolvimento</Text>
+                    <Text style={styles.textOptions}>Deletar sua conta</Text>
                 </TouchableOpacity>
             </View>
+
+            <Modal
+                animationType="slide"
+                transparent={false}
+                visible={modalVisible}
+                onRequestClose={()=>{
+                    setModalVisible(false);
+                }}
+                
+            >
+                <View>
+                    <Text>TEste</Text>
+                    <Button onPress={()=> setModalVisible(false)} title="fechar"/>
+                </View>
+            </Modal>
             
             <TouchableOpacity onPress={singOut}
                 style={styles.btnSingOut}

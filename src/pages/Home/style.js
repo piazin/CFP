@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
         marginBottom: 10
     },
     containerTransactions:{
-        backgroundColor: "#D9D9D9",
+        backgroundColor: "#F2F2F2",
         borderTopLeftRadius: 5,
         borderTopRightRadius: 5,
         height: 200

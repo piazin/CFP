@@ -10,7 +10,7 @@ function ProfileRoutes() {
  return (
     <ProfileStack.Navigator
         screenOptions={{
-            headerShown: true
+            headerShown: false
         }}
     >
         <ProfileStack.Screen 
