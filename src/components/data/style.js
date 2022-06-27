@@ -6,6 +6,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         flexDirection: "row",
         padding: 10,
+        position: "relative",
         margin: 10,
     },
     containerIcon:{

@@ -6,6 +6,8 @@ import Home from "../pages/Home";
 import Profile from "../pages/Profile";
 import New from "../pages/NewTransaction";
 
+import ProfileRoutes from "../pages/Profile/profile.routes";
+
 const AppTabs = createBottomTabNavigator();
 
 function AppRoutes(){
@@ -51,7 +53,7 @@ function AppRoutes(){
 
             <AppTabs.Screen
                 name="Profile"
-                component={Profile}
+                component={ProfileRoutes}
                 options={{
                     tabBarIcon: ({color, size})=>{
                         return <Icon name="settings" color={color} size={size}/>

@@ -14,8 +14,7 @@ import Icon from "react-native-vector-icons/Feather";
 import styles from "./style";
 import {AuthContext} from "../../contexts/auth";
 import HistoricoList from "../../components/data";
-import AwesomeAlert from "react-native-awesome-alerts";
-import { set } from "date-fns";
+
 
 function Home(){
  
