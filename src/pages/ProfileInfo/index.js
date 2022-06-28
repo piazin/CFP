@@ -23,10 +23,20 @@ export default function ProfileInfo() {
     if(name.length > 3){
       await userFirebase.updateProfile({
         displayName: name
-      }).then(()=>{
+      }).then(async ()=>{
+
+        await firebase.database().ref('users').child(user.uid).update({
+          name: name
+        })
+        .then(()=>{
+          console.log('sucessy');
+        }).catch((err)=>{
+          console.log(err);
+        });
+
         alert('nome atualizado');
       }).catch((err)=>{
-        console.log(err.code);
+        console.log(err);
       });
     } else {
       alert('nome muito curto');
@@ -38,7 +48,9 @@ export default function ProfileInfo() {
       await userFirebase.updateEmail(email).then(()=>{
         console.log('email atualizado');
       }).catch((err)=>{
-        console.log(err.code);
+        if(err.code == 'auth/requires-recent-login'){
+          alert('você deve fazer login novamente.');
+        }
       });
     } else {
       alert('email invalido');
@@ -49,7 +61,7 @@ export default function ProfileInfo() {
     <ScrollView
       showsHorizontalScrollIndicator={false}
       showsVerticalScrollIndicator={false}
-      style={{marginVertical: 10}}
+      style={{ backgroundColor: "#fff"}}
     >
         <View style={styles.container}>
           
@@ -71,6 +83,7 @@ export default function ProfileInfo() {
             value={name}
             onChangeText={(value)=> setName(value)}
             placeholder={user.name}
+            placeholderTextColor="#000"
             style={styles.inputs}
           />
 
@@ -86,10 +99,11 @@ export default function ProfileInfo() {
             value={email}
             onChangeText={(value)=> setEmail(value)}
             placeholder={user.email}
+            placeholderTextColor="#000"
             style={styles.inputs}
           />
 
-          <Text style={styles.textHelp}>Para atualizar suas informaçoes voce deve {'\n'}ter feito login recentemente.</Text>
+          <Text style={styles.textHelp}>Para atualizar suas informações, você deve {'\n'}ter feito login recentemente.</Text>
           <TouchableOpacity
             style={styles.btnDefault}
             onPress={()=>updadeUserEmail()}
@@ -101,7 +115,7 @@ export default function ProfileInfo() {
         </TouchableNativeFeedback>
 
         <View style={styles.boxOthers}>
-          <Text style={[styles.textLabel, styles.textTitle]}>Outras opçoes</Text>
+          <Text style={[styles.textLabel, styles.textTitle]}>Outras opções</Text>
 
           <Text style={styles.textLabel}>Enviar um email para redefinir sua senha</Text>
           <TouchableOpacity

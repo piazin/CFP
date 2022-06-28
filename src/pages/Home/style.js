@@ -51,6 +51,7 @@ const styles = StyleSheet.create({
         backgroundColor: "#F2F2F2",
         borderTopLeftRadius: 5,
         borderTopRightRadius: 5,
+        position: "relative",
         height: 200
     },
     btnNewTranactions:{

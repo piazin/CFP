@@ -1,14 +1,17 @@
 import React, {useContext, useState} from "react";
-import {View, Text, TouchableOpacity, Image, Modal, Button} from "react-native";
+import {View, Text, TouchableOpacity, Image, Modal} from "react-native";
 import {AuthContext} from "../../contexts/auth";
 import {useNavigation} from "@react-navigation/native";
 import styles from "./style";
+import stylesModal from "./styles.modal";
 
 function Profile(){
     const Navigation = useNavigation();
 
-    const {user, singOut} = useContext(AuthContext);
+    const {user, singOut, deleteAccount, setUser} = useContext(AuthContext);
     const [modalVisible, setModalVisible] = useState(false);
+
+    
 
     return(
         <View style={styles.container}>
@@ -54,9 +57,28 @@ function Profile(){
                 }}
                 
             >
-                <View>
-                    <Text>TEste</Text>
-                    <Button onPress={()=> setModalVisible(false)} title="fechar"/>
+                <View style={stylesModal.container}>
+                    <View style={stylesModal.boxTexts}>
+                        <Text style={[stylesModal.texts,{fontSize: 20}]}>Excluir conta</Text>
+                        <Text style={stylesModal.texts}>Todos seus dados e movimentações serão excluidos, isso não pode ser revertido.</Text>
+                        <Text style={stylesModal.texts}>Deseja continuar?</Text>
+                    </View>
+                    
+
+                    <View style={stylesModal.boxButtons}>
+                        <TouchableOpacity
+                            style={stylesModal.btnActions}
+                            onPress={()=> setModalVisible(!modalVisible)}
+                        >
+                            <Text style={[stylesModal.texts, {color:"#FFF"}]}>Cancelar</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            style={[stylesModal.btnActions, stylesModal.btnDelete]}
+                        >
+                            <Text style={[stylesModal.texts, {color:"#FFF"}]}>Excluir</Text>
+                        </TouchableOpacity>
+                    </View>
+                    
                 </View>
             </Modal>
             

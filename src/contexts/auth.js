@@ -128,6 +128,40 @@ function AuthProvider({ children }){
         })
     }
 
+    //delete account
+
+    /*async function deleteAccount(){
+        let user = firebase.auth().currentUser;
+
+        AsyncStorage.clear().then(()=>{
+            console.log("Storage Clear");
+        }).catch(()=>{
+            console.log('err storage');
+        })
+        
+        await firebase.database().ref('history')
+        .child(user.uid)
+        .remove()
+        .then(()=>{
+            console.log('remove history');
+        }).catch((err)=>{
+            console.log(err.code);
+        });
+
+        await firebase.database().ref('users').child(user.uid).remove().then(()=>{
+            console.log('removido users');
+        }).catch((err)=>{
+            console.log(err);
+        });
+
+        await user.delete().then(()=>{  
+            console.log('removido auth');
+        }).catch((err)=>{
+            console.log(err);
+        });
+        
+    }*/
+
     async function storageUser(data){
         await AsyncStorage.setItem('Auth_User', JSON.stringify(data));
     }
@@ -141,7 +175,7 @@ function AuthProvider({ children }){
     }
 
     return(
-        <AuthContext.Provider value={{ signed: !!user , user, loading, signUp, signIn, singOut, errorLogin, loadingAuth, forgotPassword, errorCreateUser }}>
+        <AuthContext.Provider value={{ signed: !!user , user, setUser, loading, signUp, signIn, singOut, errorLogin, loadingAuth, forgotPassword, errorCreateUser }}>
             {children}
         </AuthContext.Provider>
     );

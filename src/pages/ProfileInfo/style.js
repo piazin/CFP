@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
     boxOthers:{
         alignItems: "center",
         flex: 1,
-        marginTop: 20
+        marginVertical: 20
     },
     btnSendPassword:{
         width: 100

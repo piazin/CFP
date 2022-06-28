@@ -22,16 +22,17 @@ function Home(){
     
     const [history, setHistory] = useState([]);
     const [balance, setBalance] = useState(0);
+    const [income, setIncome] = useState([]);
 
     const {user} = useContext(AuthContext);
     const uid = user && user.uid;
 
     useEffect(()=>{
         async function loadList(){
+            
             await firebase.database().ref('users').child(uid).on('value', (snapshot)=>{
                 setBalance(snapshot.val().saldo);
             });
-
 
             await firebase.database().ref('history')
             .child(uid)
@@ -57,8 +58,6 @@ function Home(){
             });
 
         }
-
-        
 
         loadList();
     }, []);
@@ -107,6 +106,7 @@ function Home(){
 
                 <Text style={styles.nameUser}>Olá, {user.name}</Text>
                 <Text style={styles.balance}>R$: {balance}</Text>
+                <Text>{income}</Text>
 
                 <View style={{
                     height: 1,
