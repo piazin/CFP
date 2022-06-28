@@ -1,8 +1,8 @@
 import React from 'react';
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
 
-import Profile from '.';
-import ProfileInfo from '../ProfileInfo';
+import Profile from '../pages/Profile';
+import ProfileInfo from '../pages/ProfileInfo';
 
 const ProfileStack = createNativeStackNavigator();
 

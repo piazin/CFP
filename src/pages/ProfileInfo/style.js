@@ -31,6 +31,7 @@ const styles = StyleSheet.create({
     inputs:{
         borderBottomColor: "#FF7A00",
         borderBottomWidth: 1,
+        color:"#000",
         width: 320
     },
     btnDefault:{

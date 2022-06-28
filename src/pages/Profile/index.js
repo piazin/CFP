@@ -9,7 +9,7 @@ function Profile(){
     const Navigation = useNavigation();
 
     const {user, singOut, deleteAccount, setUser} = useContext(AuthContext);
-    const [modalVisible, setModalVisible] = useState(false);
+    const [modalDeleteVisible, setModalDeleteVisible] = useState(false);
 
     
 
@@ -42,18 +42,18 @@ function Profile(){
                 </TouchableOpacity>
                 <TouchableOpacity
                     style={styles.options}
-                    onPress={()=> setModalVisible(true)}
+                    //onPress={()=> setModalDeleteVisible(true)}
                 >
-                    <Text style={styles.textOptions}>Deletar sua conta</Text>
+                    <Text style={styles.textOptions}>Em desenvolvimento</Text>
                 </TouchableOpacity>
             </View>
 
             <Modal
                 animationType="slide"
                 transparent={false}
-                visible={modalVisible}
+                visible={modalDeleteVisible}
                 onRequestClose={()=>{
-                    setModalVisible(false);
+                    setModalDeleteVisible(false);
                 }}
                 
             >
@@ -68,7 +68,7 @@ function Profile(){
                     <View style={stylesModal.boxButtons}>
                         <TouchableOpacity
                             style={stylesModal.btnActions}
-                            onPress={()=> setModalVisible(!modalVisible)}
+                            onPress={()=> setModalDeleteVisible(!modalVisible)}
                         >
                             <Text style={[stylesModal.texts, {color:"#FFF"}]}>Cancelar</Text>
                         </TouchableOpacity>

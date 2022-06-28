@@ -3,10 +3,9 @@ import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
 import Icon from "react-native-vector-icons/Ionicons";
 
 import Home from "../pages/Home";
-import Profile from "../pages/Profile";
 import New from "../pages/NewTransaction";
 
-import ProfileRoutes from "../pages/Profile/profile.routes";
+import ProfileRoutes from "./profile.routes";
 
 const AppTabs = createBottomTabNavigator();
 
