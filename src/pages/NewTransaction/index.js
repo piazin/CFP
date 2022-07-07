@@ -15,6 +15,7 @@ import {useNavigation} from "@react-navigation/native"
 import Icon from "react-native-vector-icons/Ionicons";
 import {Picker} from "@react-native-picker/picker";
 import {format} from "date-fns";
+import AwesomeAlert from "react-native-awesome-alerts";
 import {AuthContext} from "../../contexts/auth";
 
 export default function New(){
@@ -27,14 +28,17 @@ export default function New(){
 
     const {user: usuario} = useContext(AuthContext);
 
+    const [showAlertHide, setShowAlertHide] = useState(false);
+    const [showAlertSave, setShowAlertSave] = useState(false);
+
     function handleTransactions(){
         Keyboard.dismiss();
         if(isNaN(parseFloat(valueBalance)) || type == null || description == ""){
-            alert('Preencha todos os campos');
+            setShowAlertHide(true);
             return;
         }
 
-        saveTransactions();
+        setShowAlertSave(true);
     }
 
     async function saveTransactions(){
@@ -45,7 +49,7 @@ export default function New(){
             type: type,
             value: parseFloat(valueBalance),
             description: description,
-            date: format(new Date(), 'dd/MM/yy')
+            date: format(new Date(), 'dd/MM/yyyy')
         })
 
         let user = firebase.database().ref('users').child(uid);
@@ -55,8 +59,6 @@ export default function New(){
             type === 'despesa' ? saldo -= parseFloat(valueBalance) : saldo += parseFloat(valueBalance);
 
             user.child('saldo').set(saldo);
-
-            console.log(saldo);
         });
 
         Keyboard.dismiss();
@@ -119,6 +121,47 @@ export default function New(){
                 >
                     <Text style={styles.textBtnSave}>Salvar</Text>
                 </TouchableOpacity>
+
+                <AwesomeAlert
+                    show={showAlertSave}
+                    showProgress={false}
+                    title="Confirmar movimentação"
+                    message={`${type} no valor de R$ ${valueBalance}`}
+                    closeOnTouchOutside={true}
+                    closeOnHardwareBackPress={false}
+                    showCancelButton={true}
+                    showConfirmButton={true}
+                    cancelText="Não, cancelar"
+                    confirmText="Sim, salvar"
+                    cancelButtonColor="#922626"
+                    confirmButtonColor="#009F40"
+                    onCancelPressed={() => {
+                        setShowAlertSave(false);
+                    }}
+                    onConfirmPressed={() => {
+                        saveTransactions();
+                        setShowAlertSave(false);
+                    }}
+                />
+
+
+                <AwesomeAlert
+                    show={showAlertHide}
+                    showProgress={false}
+                    title="Atenção"
+                    message="Preencha todos os campos"
+                    closeOnTouchOutside={true}
+                    closeOnHardwareBackPress={false}
+                    showCancelButton={false}
+                    showConfirmButton={true}
+                    confirmText="Ok"
+                    confirmButtonColor="#DD6B55"
+                    onConfirmPressed={() => {
+                        setShowAlertHide(false);
+                    }}
+                />
+
+
             </SafeAreaView>
         </View>
         </TouchableWithoutFeedback>

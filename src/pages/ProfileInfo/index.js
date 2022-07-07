@@ -1,6 +1,7 @@
 import React, {useContext, useState} from 'react';
 import { View, Text, TextInput, TouchableOpacity, TouchableNativeFeedback, Keyboard, ScrollView } from 'react-native';
 import Icon from "react-native-vector-icons/Ionicons";
+import AwesomeAlert from 'react-native-awesome-alerts';
 import {useNavigation} from "@react-navigation/native";
 import styles from './style';
 
@@ -16,6 +17,9 @@ export default function ProfileInfo() {
   const [name, setName]= useState('');
   const [email, setEmail] = useState('');
 
+  const [showAlertName, setShowAlertName] = useState(false);
+  const [showAlerEmail, setShowAlertEmail] = useState(false);
+
   const userFirebase = firebase.auth().currentUser;
 
   async function updateUserName(){
@@ -30,11 +34,12 @@ export default function ProfileInfo() {
         })
         .then(()=>{
           console.log('sucessy');
+          setShowAlertName(true);
+          setName('');
         }).catch((err)=>{
           console.log(err);
         });
 
-        alert('nome atualizado');
       }).catch((err)=>{
         console.log(err);
       });
@@ -47,6 +52,7 @@ export default function ProfileInfo() {
     if(email.length > 5){
       await userFirebase.updateEmail(email).then(()=>{
         console.log('email atualizado');
+        setShowAlertEmail(true);
       }).catch((err)=>{
         if(err.code == 'auth/requires-recent-login'){
           alert('você deve fazer login novamente.');
@@ -106,7 +112,7 @@ export default function ProfileInfo() {
           <Text style={styles.textHelp}>Para atualizar suas informações, você deve {'\n'}ter feito login recentemente.</Text>
           <TouchableOpacity
             style={styles.btnDefault}
-            onPress={()=>updadeUserEmail()}
+            onPress={()=>setShowAlertEmail(true)}
           >
             <Text style={styles.textBtn}>Save</Text>
           </TouchableOpacity>
@@ -127,6 +133,45 @@ export default function ProfileInfo() {
           
         </View>
       </View>
+      
+      <AwesomeAlert
+        show={showAlertName}
+        showProgress={false}
+        title="Nome atualizado!"
+        message="Na proxima vez que fizer login seu nome será atualizado."
+        closeOnTouchOutside={false}
+        closeOnHardwareBackPress={false}
+        showCancelButton={false}
+        showConfirmButton={true}
+        confirmText="Ok"
+        confirmButtonColor="#009F40"
+        onConfirmPressed={() => {
+            setShowAlertName(false);
+        }}
+      />
+
+      <AwesomeAlert
+        show={showAlerEmail}
+        showProgress={false}
+        title="Atualizar email!"
+        message={`Este email está correto: ${email} ?`}
+        closeOnTouchOutside={true}
+        closeOnHardwareBackPress={true}
+        showCancelButton={true}
+        showConfirmButton={true}
+        confirmText="Ok"
+        cancelText='Cancelar'
+        confirmButtonColor="#009F40"
+        cancelButtonColor="#922626"
+        onCancelPressed={()=>{
+          setShowAlertEmail(false);
+        }}
+        onConfirmPressed={() => {
+            updadeUserEmail()
+            setShowAlertEmail(false);
+        }}
+      />
+      
     </ScrollView>
    
   );

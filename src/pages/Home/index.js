@@ -11,9 +11,12 @@ import {
 import firebase from "../../services/firebaseConnection";
 import {useNavigation} from "@react-navigation/native"
 import Icon from "react-native-vector-icons/Feather";
+import IconFontAwesome from "react-native-vector-icons/FontAwesome"
 import styles from "./style";
 import {AuthContext} from "../../contexts/auth";
 import HistoricoList from "../../components/data";
+import format from "date-fns/format";
+import api from "../../services/api";
 
 
 function Home(){
@@ -27,6 +30,8 @@ function Home(){
     const {user} = useContext(AuthContext);
     const uid = user && user.uid;
 
+    const [dolar, setDolar] = useState(0);
+
     useEffect(()=>{
         async function loadList(){
             
@@ -36,7 +41,7 @@ function Home(){
 
             await firebase.database().ref('history')
             .child(uid)
-            .orderByChild('date')
+            .orderByChild('date').equalTo(format(new Date, 'dd/MM/yyyy'))
             .limitToLast(20)
             .on('value', (snapshot)=>{
                 
@@ -59,7 +64,17 @@ function Home(){
 
         }
 
+        function apiMoney(){
+            api.get('USD-BRL').then((res)=>{
+                let money = res.data.USDBRL.bid;
+                setDolar(money);
+            }).catch((err)=>{
+                console.log(err);
+            })
+        }
+    
         loadList();
+        apiMoney();
     }, []);
 
     function handleDelete(data){
@@ -95,43 +110,67 @@ function Home(){
         })
     }
 
+    
+
     return(
         <SafeAreaView style={styles.container}>
-            
-            <View style={styles.containerInfoUser}>
-                <Image
-                    style={styles.imgUserProfile}
-                    source={user.photoUrl == undefined ? {uri: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png"} : user.photoUrl}
-                />
+            <View style={styles.containerInfoUser}> 
+                <View >
+                    <Image
+                        style={styles.imgUserProfile}
+                        source={user.photoUrl == undefined ? {uri: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png"} : user.photoUrl}
+                    />
 
-                <Text style={styles.nameUser}>Olá, {user.name}</Text>
-                <Text style={styles.balance}>R$: {balance}</Text>
-                <Text>{income}</Text>
+                    <Text style={styles.nameUser}>Olá, {user.name}</Text>
+                    <Text style={styles.balance}>R$: {balance}</Text>
+                    <Text>{income}</Text>
+                </View>
 
-                <View style={{
-                    height: 1,
-                    backgroundColor: '#FF7A00',
-                    alignSelf: 'stretch'
-                }} />
+                <View style={styles.boxDolar}>
+                    <Text style={styles.dolarValue}>1 dólar {<IconFontAwesome name="money" size={15} color="#222"/>}</Text>
+                    <Text style={styles.dolarValue}>R$: {Number(dolar).toFixed(2)}</Text>
+                </View>
             </View>
+
+            <View style={{
+                height: 1,
+                backgroundColor: '#FF7A00',
+                alignSelf: 'stretch',
+                marginBottom: 10
+            }} />
+            
 
             <TouchableOpacity 
                 style={styles.btnNewTranactions}
-                onPress={()=> navigation.navigate('NewTransactions')}
+                onPress={()=> navigation.navigate('New')}
             >
                 <Icon name="plus" size={30} color="#000"/>
             </TouchableOpacity>
 
             <Text style={styles.textTransactions}>Ultimas movimentações</Text>
-
-            <FlatList
-                style={styles.containerTransactions}
-                showsVerticalScrollIndicator={false}
-                data={history}
-                keyExtractor={ item => item.key}
-                renderItem={ ({ item }) => ( <HistoricoList data={item} deleteItem={handleDelete}/> )}
-            /> 
-
+                
+            {
+                history.length <= 0  ? (
+                    <View style={[styles.containerTransactions, styles.noTransactionsContainer]}>
+                        <Text style={styles.textNoContainer}>{
+                        `Você não tem movimentações,
+                         recentes.`
+                         }</Text>
+                        <Image
+                            source={require('../../images/home/Savings-bro.png')}
+                            style={styles.imgNoTransactions}
+                        />
+                    </View>
+                ) : (
+                    <FlatList
+                        style={styles.containerTransactions}
+                        showsVerticalScrollIndicator={false}
+                        data={history}
+                        keyExtractor={ item => item.key}
+                        renderItem={ ({ item }) => ( <HistoricoList data={item} deleteItem={handleDelete}/> )}
+                    /> 
+                )
+            }
         </SafeAreaView>
     );
 }

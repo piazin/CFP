@@ -2,10 +2,8 @@ import React from "react";
 import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
 import Icon from "react-native-vector-icons/Ionicons";
 
-import Home from "../pages/Home";
-import New from "../pages/NewTransaction";
-
 import ProfileRoutes from "./profile.routes";
+import HomeRoutes from "./home.routes";
 
 const AppTabs = createBottomTabNavigator();
 
@@ -20,15 +18,15 @@ function AppRoutes(){
                 tabBarInactiveTintColor: "#C46F20",
                 tabBarStyle:{
                     backgroundColor: "#222",
-                    borderTopRightRadius: 10,
-                    borderTopLeftRadius: 10,
+                    borderTopRightRadius: 20,
+                    borderTopLeftRadius: 20,
                     borderTopWidth: 0
                 }
             }}
         >
             <AppTabs.Screen
-                name="Home"
-                component={Home}
+                name="HomeRoutes"
+                component={HomeRoutes}
                 options={{
                     tabBarIcon: ({color, size}) =>{
                         return <Icon name="home" color={color} size={size}/>
@@ -36,19 +34,6 @@ function AppRoutes(){
                 }}
             />
 
-            <AppTabs.Screen
-                name="NewTransactions"
-                component={New}
-                options={{
-                    tabBarIcon: ({color, size}) => {
-                        return <Icon name="add" color={color} size={size}/>
-                    },
-                    tabBarIconStyle:{
-                        display: 'none'
-                    }
-                }}
-    
-            />
 
             <AppTabs.Screen
                 name="Profile"

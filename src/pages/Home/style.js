@@ -9,10 +9,11 @@ const styles = StyleSheet.create({
         position: "relative"
     },
     containerInfoUser:{
-        alignItems: "flex-start",
+        alignItems: "flex-end",
         backgroundColor: "#FFFFFF",
+        flexDirection: "row",
         flex: 1,
-        justifyContent: "center",
+        justifyContent: "space-between",
     },
     imgUserProfile:{
         borderRadius: 50,
@@ -25,14 +26,13 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: "bold",
         fontStyle: "italic",
-        paddingBottom: 5
     },
     nameUser:{
         color: "#000",
         fontSize: 20,
         fontFamily: "Inter-Regular",
         fontWeight: "bold",
-        paddingBottom: 15
+        paddingBottom: 5
     },
     textBalance:{
         color: "#fff",
@@ -54,6 +54,21 @@ const styles = StyleSheet.create({
         position: "relative",
         height: 200
     },
+    noTransactionsContainer: {
+        alignItems: 'center',
+        height: 390,
+        justifyContent: "center"
+    },
+    imgNoTransactions:{
+        width: 200,
+        height: 200,
+    },
+    textNoContainer:{
+        color: "#222",
+        fontFamily: "Inter-SemiBold",
+        fontSize: 16,
+        paddingBottom: 20
+    },
     btnNewTranactions:{
         alignItems: "center",
         backgroundColor: "#FF7A00",
@@ -69,6 +84,15 @@ const styles = StyleSheet.create({
         shadowOpacity: 1,
         width: 55,
         zIndex: 10
+    }, 
+    boxDolar:{
+        alignItems: "center",
+        marginBottom: 20,
+    },
+    dolarValue: {
+        color: "#222",
+        fontFamily: "Inter-SemiBold",
+        fontSize: 15,
     }
 });
 
