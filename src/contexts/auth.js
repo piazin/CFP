@@ -118,6 +118,18 @@ function AuthProvider({ children }){
         })
     }
 
+    //login Google not suport
+
+    /*async function signInGoogle(){
+        let provider = new firebase.auth.GoogleAuthProvider();
+
+        await firebase.auth().signInWithRedirect(provider).then((result)=>{
+            var user = result.user;
+        }).catch((err)=>{
+            console.log(err.code);
+        });
+    }*/
+
     //reset passaword
     async function forgotPassword(email){
         await firebase.auth().sendPasswordResetEmail(email)

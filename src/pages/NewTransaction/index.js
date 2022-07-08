@@ -7,16 +7,16 @@ TouchableOpacity,
 TextInput,
 TouchableWithoutFeedback,
 Keyboard,
-Alert
 } from "react-native";
 import firebase from "../../services/firebaseConnection";
 import styles from "./styles";
 import {useNavigation} from "@react-navigation/native"
 import Icon from "react-native-vector-icons/Ionicons";
 import {Picker} from "@react-native-picker/picker";
-import {format} from "date-fns";
+import {format, getMonth} from "date-fns";
 import AwesomeAlert from "react-native-awesome-alerts";
 import {AuthContext} from "../../contexts/auth";
+import {RadioButton} from "react-native-paper";
 
 export default function New(){
 
@@ -24,16 +24,18 @@ export default function New(){
     
     const [valueBalance, setValueBalance] = useState("");
     const [description, setDescription] = useState("");
-    const [type, setType] = useState('receita');
+    const [category, setCategory] = useState('receita');
+    const [checked, setChecked] = useState('receita');
 
     const {user: usuario} = useContext(AuthContext);
 
     const [showAlertHide, setShowAlertHide] = useState(false);
     const [showAlertSave, setShowAlertSave] = useState(false);
 
+
     function handleTransactions(){
         Keyboard.dismiss();
-        if(isNaN(parseFloat(valueBalance)) || type == null || description == ""){
+        if(isNaN(parseFloat(valueBalance)) || checked == null || description == ""){
             setShowAlertHide(true);
             return;
         }
@@ -46,17 +48,19 @@ export default function New(){
         let key = await firebase.database().ref('history').child(uid).push().key;
 
         await firebase.database().ref('history').child(uid).child(key).set({
-            type: type,
+            type: checked,
+            category: category,
             value: parseFloat(valueBalance),
             description: description,
-            date: format(new Date(), 'dd/MM/yyyy')
+            date: format(new Date(), 'dd/MM/yyyy'),
+            month: getMonth(new Date())
         })
 
         let user = firebase.database().ref('users').child(uid);
         await user.once('value').then((snapshot)=>{
             let saldo = parseFloat(snapshot.val().saldo);
 
-            type === 'despesa' ? saldo -= parseFloat(valueBalance) : saldo += parseFloat(valueBalance);
+            checked === 'despesa' ? saldo -= parseFloat(valueBalance) : saldo += parseFloat(valueBalance);
 
             user.child('saldo').set(saldo);
         });
@@ -74,7 +78,7 @@ export default function New(){
                 <TouchableOpacity
                     onPress={()=> navigation.goBack()}
                 >
-                    <Icon name="arrow-back-circle" color="#000" size={35}/>
+                    <Icon name="arrow-back" color="#000" size={35}/>
                 </TouchableOpacity>
                 <Text style={styles.textHeader}>Nova Trasação</Text>
             </View>
@@ -105,15 +109,60 @@ export default function New(){
 
                 </View>
 
-                <Picker
-                style={[styles.picker, {color: type == 'despesa' ? "#922626" : "#009F40"}]}
-                selectedValue={type}
-                onValueChange={(itemValue, itemIndex) =>
-                    setType(itemValue)
-                }>
-                    <Picker.Item label="Receita" value="receita" />
-                    <Picker.Item label="Despesa" value="despesa" />
-                </Picker>
+                <Text style={styles.titleCategory}>Selecione uma categoria</Text>
+                {
+                    checked === 'receita' ? (
+                        <Picker
+                        style={styles.picker}
+                        selectedValue={category}
+                        onValueChange={(itemValue, itemIndex) =>
+                            setCategory(itemValue)
+                        }>
+                            <Picker.Item label="Salário" value="salario" />
+                            <Picker.Item label="Outros" value="outros" />
+                        </Picker>
+                    ) : (
+                        <Picker
+                        style={styles.picker}
+                        selectedValue={category}
+                        onValueChange={(itemValue, itemIndex) =>
+                            setCategory(itemValue)
+                        }>
+                            <Picker.Item label="Viagem" value="viagem" />
+                            <Picker.Item label="Faculdade" value="faculdade" />
+                            <Picker.Item label="Carro" value="carro" />
+                            <Picker.Item label="Comida e Bebida" value="comida" />
+                            <Picker.Item label="Cartão" value="cartao" />
+                            <Picker.Item label="Lazer" value="lazer" />
+                            <Picker.Item label="Outros" value="outros" />
+                        </Picker>
+                    )
+                }
+                
+                <View style={styles.boxRadioButtons}>
+                    <RadioButton
+                        value="receita"
+                        status={checked === "receita" ? 'checked' : 'unchecked'}
+                        onPress={()=>{
+                            setChecked('receita');
+                        }}
+                        color="#009F40"
+                    />
+
+                    <Text style={styles.fontAll}>Receita</Text>
+
+                    <RadioButton
+                        value="despesa"
+                        status={checked === "despesa" ? 'checked' : 'unchecked'}
+                        onPress={()=>{
+                            setChecked('despesa');
+                        }}
+                        color="#922626"
+                    />
+
+                    <Text style={styles.fontAll}>Despesa</Text>
+                </View>
+                
 
                 <TouchableOpacity
                     style={styles.btnSave}
@@ -126,7 +175,7 @@ export default function New(){
                     show={showAlertSave}
                     showProgress={false}
                     title="Confirmar movimentação"
-                    message={`${type} no valor de R$ ${valueBalance}`}
+                    message={`${checked} no valor de R$ ${valueBalance}`}
                     closeOnTouchOutside={true}
                     closeOnHardwareBackPress={false}
                     showCancelButton={true}

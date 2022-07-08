@@ -4,6 +4,7 @@ import {AuthContext} from "../../contexts/auth";
 import {useNavigation} from "@react-navigation/native";
 import styles from "./style";
 import stylesModal from "./styles.modal";
+import Icon from "react-native-vector-icons/FontAwesome"
 
 function Profile(){
     const Navigation = useNavigation();
@@ -32,18 +33,21 @@ function Profile(){
                     style={styles.options}
                     onPress={()=> Navigation.navigate('UpdateUser')}
                 >
-                    <Text style={styles.textOptions}>Atualizar Informações Pessoais</Text>
+                    <Icon name="user-o" size={20} color="#222"/>
+                    <Text style={styles.textOptions}>Informações Pessoais</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity
                     style={styles.options}
-                >
+                >   
+                    <Icon name="user-secret" size={20} color="#222"/>
                     <Text style={styles.textOptions}>Em desenvolvimento</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                     style={styles.options}
                     //onPress={()=> setModalDeleteVisible(true)}
                 >
+                    <Icon name="user-secret" size={20} color="#222"/>
                     <Text style={styles.textOptions}>Em desenvolvimento</Text>
                 </TouchableOpacity>
             </View>

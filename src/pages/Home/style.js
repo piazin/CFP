@@ -9,11 +9,14 @@ const styles = StyleSheet.create({
         position: "relative"
     },
     containerInfoUser:{
-        alignItems: "flex-end",
+        alignItems: "flex-start",
         backgroundColor: "#FFFFFF",
         flexDirection: "row",
-        flex: 1,
         justifyContent: "space-between",
+        paddingTop: 20,
+        paddingHorizontal: 10,
+        height: 150,
+        marginBottom: 10
     },
     imgUserProfile:{
         borderRadius: 50,
@@ -51,12 +54,13 @@ const styles = StyleSheet.create({
         backgroundColor: "#F2F2F2",
         borderTopLeftRadius: 5,
         borderTopRightRadius: 5,
+        flex: 3,
         position: "relative",
-        height: 200
+
     },
     noTransactionsContainer: {
         alignItems: 'center',
-        height: 390,
+        flex: 3,
         justifyContent: "center"
     },
     imgNoTransactions:{
@@ -67,7 +71,6 @@ const styles = StyleSheet.create({
         color: "#222",
         fontFamily: "Inter-SemiBold",
         fontSize: 16,
-        paddingBottom: 20
     },
     btnNewTranactions:{
         alignItems: "center",
@@ -86,13 +89,40 @@ const styles = StyleSheet.create({
         zIndex: 10
     }, 
     boxDolar:{
+        alignSelf: "flex-end",
         alignItems: "center",
         marginBottom: 20,
     },
     dolarValue: {
         color: "#222",
         fontFamily: "Inter-SemiBold",
-        fontSize: 15,
+        fontSize: 12,
+    },
+    middleContainer:{
+        alignItems: "center",
+        justifyContent: "center",
+        height: 120
+    },
+    boxMiddleBtns:{
+        alignItems: "center",
+        justifyContent: "center",
+        marginTop: 0,
+        height: 70,
+        width: 110
+    },
+    middleBtn:{
+        alignItems: "center",
+        backgroundColor: "#F2F2F2",
+        borderRadius: 50,
+        justifyContent: "center",
+        height: 50,
+        width: 50
+    },
+    textMiddleBtn:{
+        color: "#222",
+        fontFamily: "Inter-SemiBold",
+        fontSize: 12,
+        textAlign: "center"
     }
 });
 

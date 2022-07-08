@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
     userImg:{
         borderRadius: 50,
         borderColor: "#FF7A00",
-        borderWidth: 2,
+        borderWidth: 1,
         marginBottom: 15,
         height: 100,
         width: 100,
@@ -53,16 +53,18 @@ const styles = StyleSheet.create({
         fontSize: 14
     },
     boxOptions:{
-        alignSelf: "flex-start",
+        alignSelf: "center",
         backgroundColor: "#FFF",
         padding: 10,
         height: 300,
         width: "100%"
     },
     options: {
+        alignItems: "center",
         borderColor: "#FF7A00",
-        borderBottomWidth: 2,
-        justifyContent: "center",
+        borderBottomWidth: 1,
+        flexDirection: "row",
+        justifyContent: "flex-start",
         padding: 10,
         marginTop: 20,
         height: 50,
@@ -71,7 +73,8 @@ const styles = StyleSheet.create({
     textOptions:{
         color: "#000",
         fontFamily: "Inter-SemiBold",
-        fontSize: 16
+        fontSize: 16,
+        marginLeft: 20
     }
 });
 

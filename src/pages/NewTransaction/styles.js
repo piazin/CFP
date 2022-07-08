@@ -11,8 +11,8 @@ const styles = StyleSheet.create({
     },
     textHeader:{
         color: "#000",
-        fontSize: 18,
-        fontWeight: "800"
+        fontFamily: "Inter-SemiBold",
+        fontSize: 16
     },
     containerInputs:{
         alignItems: "center",
@@ -24,6 +24,7 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
         color: "#000",
         fontSize: 22,
+        fontFamily: "Inter-SemiBold",
         height: 50,
         textAlign: "center",
         width: 200,
@@ -38,16 +39,27 @@ const styles = StyleSheet.create({
         left: 15,
         top: 25,
     },
+    titleCategory:{
+        color: "#222",
+        fontFamily: "Inter-SemiBold",
+        fontSize: 13, 
+        marginTop: 20
+    },
     picker:{
         backgroundColor: "#D9D9D9",
         borderBottomStartRadius: 10,
-        color: "#fff",
-        marginTop: 20,
+        color: "#000",
+        marginTop: 10,
         width: 300
+    },
+    boxRadioButtons:{
+        alignItems: "center",
+        flexDirection: "row",
+        marginVertical: 10
     },
     btnSave:{
         alignItems: "center",
-        backgroundColor: "#009F40",
+        backgroundColor: "#E8560C",
         borderRadius: 10,
         justifyContent: "center",
         marginTop: 20,
@@ -56,9 +68,14 @@ const styles = StyleSheet.create({
     },
     textBtnSave:{
         color: "#fff",
+        fontFamily: "Inter-Bold",
         fontSize: 20,
-        fontWeight: "bold",
         textTransform: "uppercase",
+    },
+    fontAll:{
+        color: "#222",
+        fontFamily: "Inter-Bold",
+        marginRight: 10
     }
 });
 

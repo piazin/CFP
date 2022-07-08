@@ -7,11 +7,13 @@ import {
     Image,
     TouchableOpacity,
     Alert,
+    ScrollView
 } from "react-native";
 import firebase from "../../services/firebaseConnection";
 import {useNavigation} from "@react-navigation/native"
 import Icon from "react-native-vector-icons/Feather";
-import IconFontAwesome from "react-native-vector-icons/FontAwesome"
+import IconFontAwesome from "react-native-vector-icons/FontAwesome";
+import IconMaterial from "react-native-vector-icons/MaterialCommunityIcons";
 import styles from "./style";
 import {AuthContext} from "../../contexts/auth";
 import HistoricoList from "../../components/data";
@@ -31,6 +33,8 @@ function Home(){
     const uid = user && user.uid;
 
     const [dolar, setDolar] = useState(0);
+
+    const [refresh, setRefresh] = useState(false);
 
     useEffect(()=>{
         async function loadList(){
@@ -111,10 +115,11 @@ function Home(){
     }
 
     
-
     return(
         <SafeAreaView style={styles.container}>
-            <View style={styles.containerInfoUser}> 
+            <View 
+                style={styles.containerInfoUser}
+            > 
                 <View >
                     <Image
                         style={styles.imgUserProfile}
@@ -131,6 +136,66 @@ function Home(){
                     <Text style={styles.dolarValue}>R$: {Number(dolar).toFixed(2)}</Text>
                 </View>
             </View>
+
+            <View style={{
+                height: 1,
+                backgroundColor: '#FF7A00',
+                alignSelf: 'stretch',
+                marginBottom: 10
+            }} />
+
+
+            <View style={styles.middleContainer}>
+                <ScrollView
+                    horizontal={true}
+                    showsHorizontalScrollIndicator={false}
+                    style={{marginTop: 20}}
+                >
+                    <View style={styles.boxMiddleBtns}>
+                        <TouchableOpacity
+                            style={styles.middleBtn}
+                        >
+                            <IconMaterial name="bank-transfer" size={23} color="#b35404"/>
+                        </TouchableOpacity>
+                        <Text style={styles.textMiddleBtn}>Movimentações</Text>
+                    </View>
+
+                    <View style={styles.boxMiddleBtns}>
+                        <TouchableOpacity
+                            style={styles.middleBtn}
+                            onPress={()=>{
+                                navigation.navigate("Wallet");
+                            }}
+                        >
+                            <IconMaterial name="wallet" size={20} color="#000"/>
+                        </TouchableOpacity>
+                        <Text style={styles.textMiddleBtn}>Carteira</Text>
+                    </View>
+
+                    <View style={styles.boxMiddleBtns}>
+                        <TouchableOpacity
+                            style={styles.middleBtn}
+                            onPress={()=>navigation.navigate('New')}
+                        >
+                            <IconMaterial name="piggy-bank" size={20} color="#000"/>
+                        </TouchableOpacity>
+                        <Text style={styles.textMiddleBtn}>Adcionar</Text>
+                    </View>
+
+
+                    <View style={styles.boxMiddleBtns}>
+                        <TouchableOpacity
+                            style={styles.middleBtn}
+                            onPress={()=> navigation.navigate('Profile')}
+                        >
+                            <IconMaterial name="account-cog" size={20} color="#000"/>
+                        </TouchableOpacity>
+                        <Text style={styles.textMiddleBtn}>Conta</Text>
+                    </View>
+
+                </ScrollView>
+            </View>
+
 
             <View style={{
                 height: 1,
